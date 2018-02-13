@@ -74,4 +74,5 @@ public class A1Q3 {
        karel.move(2);
        karel.turnLeft();
        
+    }
 }
