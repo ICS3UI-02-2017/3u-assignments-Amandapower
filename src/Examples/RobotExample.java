@@ -60,7 +60,7 @@ public class RobotExample {
         // move cow 20 spaces 
         cow.move(5);
         
-        // 
+        // add another robot named tc 
         RobotSE tc = new RobotSE(kw, -8, 4, Direction.SOUTH);
         
     }
