@@ -73,7 +73,7 @@ public class A1Q5 {
      karel.pickThing();
      karel.turnLeft();
      
-     //move maria to pick up her third thing
+     //move maria to pick up her last thing
      maria.move();
      maria.pickThing();
      
