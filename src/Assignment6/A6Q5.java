@@ -58,20 +58,27 @@ public class A6Q5 {
         
             
         }
-        System.out.println("The marks in order arae " + Arrays.toString(marks));
         
-         int mediano = 0;
-         int mediant = 0;
-         int median = 0;
+        
+         int median1 = 0;
+         int median2 = 0;
+         double median = 0;
+         double median1odd = 0;
+         double median2odd = 0;
          
         // find the  median if the array has an even amout of numbers
         if (marknumb % 2 == 0){
-           mediano =  marknumb/2 - 1;
-           mediant = mediano +1;
-           median = mediant + mediano / 2;
+           median1 =  marknumb/2 - 1;
+           median2 = median1 +1;
+           median =  (marks[median2] + marks [median1])/2;
+           
             System.out.println("the median of the array is " + median);
            // fins the median if the array has an odd amount of numbers
         }else{
+            median1 = (int) Math.ceil(marknumb/2) ;
+            System.out.println("The median of the array is " + marks [median1]);
+                    
+        }
             
         }
     
