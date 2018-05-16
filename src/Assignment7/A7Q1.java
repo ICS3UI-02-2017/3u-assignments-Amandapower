@@ -80,16 +80,30 @@ public class A7Q1 {
      return answer;
         }
         
-       public static double firstDigit (double a) {
-          v
-       }
+        public static int firstDigit (int a){
+            while (a>=10 || a<=-10){
+                a = a /10;
+            }
+            return Math.abs(a);
+        }
+        
+        public static boolean allDigitsOdd (int a){
+            boolean answer = true;
+            
+            
+        }
+        
+        
+        
+      
       
     
     
     
  public static void main(String[] args) {
-        
+      boolean test = allDigitsOdd (223478);
+      System.out.println(test);
     }
-    
+   
   
 }
