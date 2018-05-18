@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -34,8 +35,9 @@ public class A8 extends JComponent implements ActionListener {
     // this is what keeps our time running smoothly :)
     Timer gameTimer;
     // YOUR GAME VARIABLES WOULD GO HERE
-    Color skin = new Color(239, 214, 189);
+    Color nose = new Color(255, 192, 203);
     Color hair = new Color(44, 34, 43);
+    Color face = new Color (255, 250, 250);
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -74,59 +76,33 @@ public class A8 extends JComponent implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         // always clear the screen first!
+        Graphics2D g2d = (Graphics2D)g;
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
-        //hair
+        //background
         g.setColor(hair);
-        g.fillRect(200, 200, 400, 600);
-
-        // make face of person
-        g.setColor(skin);
-        g.fillOval(200, 100, 400, 430);
-        //ears
-        g.fillOval(170, 260, 100, 100);
-        g.fillOval(530, 260, 100, 100);
-        //hair
-        g.setColor(hair);
-        g.fillOval(210, 110, 100, 100);
-        g.fillOval(180, 140, 100, 100);
-        g.fillOval(160, 180, 100, 100);
-        g.fillOval(160, 220, 100, 100);
-        g.fillOval(160, 260, 100, 100);
-        g.fillOval(160, 300, 100, 100);
-        g.fillOval(160, 340, 100, 100);
-        g.fillOval(160, 380, 100, 100);
-        g.fillOval(160, 400, 100, 100);
-        g.fillOval(160, 440, 100, 100);
-        g.fillOval(160, 480, 100, 100);
-        g.fillOval(160, 500, 100, 100);
-        g.fillOval(160, 540, 100, 100);
-        g.fillOval(220, 100, 100, 100);
-        g.fillOval(240, 90, 100, 100);
-        g.fillOval(280, 70, 100, 100);
-        g.fillOval(320, 70, 100, 100);
-        g.fillOval(360, 70, 100, 100);
-        g.fillOval(390, 70, 100, 100);
-        g.fillOval(420, 80, 100, 100);
-        g.fillOval(450, 100, 100, 100);
-        g.fillOval(490, 130, 100, 100);
-        g.fillOval(510, 160, 100, 100);
-        g.fillOval(530, 200, 100, 100);
-        g.fillOval(530, 230, 100, 100);
-        g.fillOval(540, 270, 100, 100);
-        g.fillOval(540, 310, 100, 100);
-        g.fillOval(540, 340, 100, 100);
-        g.fillOval(540, 380, 100, 100);
-        g.fillOval(540, 410, 100, 100);
-        g.fillOval(540, 440, 100, 100);
-        g.fillOval(540, 480, 100, 100);
-        g.fillOval(540, 500, 100, 100);
-        g.fillOval(540, 530, 100, 100);
-        // neck
-        g.setColor(skin);
-        g.fillRect(300, 400, 200, 600);
-
+        g.fillRect(0, 0, WIDTH, HEIGHT);
+        //face
+        g.setColor(face);
+        g.fillOval(120, 50, 500, 500);
+        //nose
+        g.setColor(nose);
+        g.fillOval(160, 350, 400, 200);
+        // ears
+        g.setColor(face);
+        
+        g2d.translate(70, 220);
+        g2d.rotate(Math.toRadians(60));
+        g.fillOval(-50, -200, 100, 200);
+        g2d.rotate(Math.toRadians(-60));
+        g2d.translate(-70, -220);
+        
+        g2d.translate(550, 220);
+        g2d.rotate(Math.toRadians(110));
+        g.fillOval(-50, -200, 100, 200);
+        g2d.rotate(Math.toRadians(-110));
+        g2d.translate(-550, -220);
         // GAME DRAWING ENDS HERE
     }
 
