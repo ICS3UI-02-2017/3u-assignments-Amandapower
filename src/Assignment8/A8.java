@@ -196,19 +196,33 @@ public class A8 extends JComponent implements ActionListener {
             eye2x = eye2x - 3;
         }
         
-        //make mouth move
-        if (mouth1y >= 500){
-            mouthmove = true;
-        }
-        if (mouth1y <= 400){
-            mouthmove = false;
-        }
-        if (mouthmove){
-            mouth1y = mouth1y + 3;
-        }
-        else {
-            mouth1y = mouth1y - 3;
-        }
+        //move lower mouth
+        
+       if (mouth1y <= 500){
+           mouthmove =true;
+       }
+       if (mouth1y >= 550){
+           mouthmove = false;
+       }
+       if (mouthmove){
+          mouth1y = mouth1y +3;
+       }else{
+           mouth1y = mouth1y - 3;
+       }
+       
+       // move upper mouth
+       if (mouth2y <= 540){
+           mouthmove =true;
+       }
+       if (mouth2y >= 590){
+           mouthmove = false;
+       }
+       if (mouthmove){
+          mouth2y = mouth2y +3;
+       }else{
+           mouth2y = mouth2y - 3;
+       }
+       
 
 
     }
