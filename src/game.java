@@ -36,72 +36,55 @@ public class game extends JComponent implements ActionListener {
     // this is what keeps our time running smoothly :)
     Timer gameTimer;
     // YOUR GAME VARIABLES WOULD GO HERE
-    
     //background colour (green/blue)
     Color background = new Color(0, 51, 51);
-    
     // costom font type and size
     Font boldfont = new Font("arial", Font.BOLD, 27);
-    
     //create variable for character that will go through the maze
-     Rectangle player = new Rectangle(980, 780, 20, 20);
-     
-     //create booleans for player movement
-     boolean playerup = false;
-     boolean playerdown = false;
-     boolean playerleft = false;
-     boolean playerright = false;
-     
-     // speed of player
-     int playerspeed = 50;
-     
-     // create rectange for the red end square
-     Rectangle end = new Rectangle(0, 0, 30, 30);
-     
-     //booleans for winning and losing the game
-     
-     boolean win = false;
-     
-     boolean lose = false;
-     
-     //colour for text on the win game + end game screen
-     Color text = new Color(120, 249, 133);
-     
-     //set custom texts
-     Font winner = new Font("arial", Font.BOLD, 150);
-     Font playagain = new Font("arial", Font.BOLD, 70);
-     
-     //create rectangles for the yes and no options
-      Rectangle yes = new Rectangle(600, 450, 50, 50);
-     
-       Rectangle no = new Rectangle(600, 550, 50, 50);
-       
-       //mouse variables for end game screen
-       
-     int mousex = 0;
-     int mousey = 0;
-     
-     //make rectangles that make player larger
-     Rectangle big1 = new Rectangle(600, 450, 50, 50);
-     
-     Rectangle big2 = new Rectangle(600, 450, 50, 50);
-     
-     Rectangle big3 = new Rectangle(600, 450, 50, 50);
-     
-     Rectangle big4 = new Rectangle(600, 450, 50, 50);
-     
-     Rectangle big5 = new Rectangle(600, 450, 50, 50);
-     
-     Rectangle big6 = new Rectangle(600, 450, 50, 50);
-     
-     Rectangle big7 = new Rectangle(600, 450, 50, 50);
-     
-     Rectangle big8 = new Rectangle(600, 450, 50, 50);
-     
-     Rectangle big9 = new Rectangle(600, 450, 50, 50);
-     
-     Rectangle big10 = new Rectangle(600, 450, 50, 50);
-     
+    Rectangle player = new Rectangle(980, 780, 20, 20);
+    //create booleans for player movement
+    boolean playerup = false;
+    boolean playerdown = false;
+    boolean playerleft = false;
+    boolean playerright = false;
+    // speed of player
+    int playerspeed = 50;
+    // create rectange for the red end square
+    Rectangle end = new Rectangle(0, 0, 30, 30);
+    //booleans for winning and losing the game
+    boolean win = false;
+    boolean lose = false;
+    //colour for text on the win game + end game screen
+    Color text = new Color(120, 249, 133);
+    //set custom texts
+    Font winner = new Font("arial", Font.BOLD, 150);
+    Font playagain = new Font("arial", Font.BOLD, 70);
+    //create rectangles for the yes and no options
+    Rectangle yes = new Rectangle(600, 450, 50, 50);
+    Rectangle no = new Rectangle(600, 550, 50, 50);
+    //mouse variables for end game screen
+    int mousex = 0;
+    int mousey = 0;
+    // randomly generate the x and y coordinates of the growing rectangles
+    int xposition = (int) (Math.random() * (1000 - 1 + 1)) + 1;
+    int yposition = (int) (Math.random() * (800 - 1 + 1)) + 1;
+    //make array to save randomly generated numbers
+    int[] xposarray = new int[10];
+    int[] yposarray = new int[10];
+    //make rectangles that make player larger 
+    Rectangle big1 = new Rectangle(xposarray[0], yposarray[0], 10, 10);
+    Rectangle big2 = new Rectangle(xposarray[1], yposarray[1], 10, 10);
+    Rectangle big3 = new Rectangle(xposarray[2], yposarray[2], 10, 10);
+    Rectangle big4 = new Rectangle(xposarray[3], yposarray[3], 10, 10);
+    Rectangle big5 = new Rectangle(xposarray[4], yposarray[4], 10, 10);
+    Rectangle big6 = new Rectangle(xposarray[5], yposarray[5], 10, 10);
+    Rectangle big7 = new Rectangle(xposarray[6], yposarray[6], 10, 10);
+    Rectangle big8 = new Rectangle(xposarray[7], yposarray[7], 10, 10);
+    Rectangle big9 = new Rectangle(xposarray[8], yposarray[8], 10, 10);
+    Rectangle big10 = new Rectangle(xposarray[9], yposarray[9], 10, 10);
+    
+    //create boolean to stop geneation of grow larger square/only 10 times
+     boolean allgenerated = false;
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -160,35 +143,51 @@ public class game extends JComponent implements ActionListener {
         g.setColor(Color.RED);
         g.fillRect(end.y, end.x, end.width, end.height);
 
-        
+
         // draw character to go through the maze
-       g.setColor(Color.BLACK);
-       g.fillRect(player.x, player.y, player.width, player.height);
+        g.setColor(Color.BLACK);
+        g.fillRect(player.x, player.y, player.width, player.height);
+
+        //drw out the squares that make the player grow 
+        g.setColor(text);
+        g.fillRect(xposarray[0], yposarray[0], big1.width, big1.height);
+        g.fillRect(xposarray[1], yposarray[1], big2.width, big2.height);
+        g.fillRect(xposarray[2], yposarray[2], big3.width, big3.height);
+        g.fillRect(xposarray[3], yposarray[3], big4.width, big4.height);
+        g.fillRect(xposarray[4], yposarray[4], big1.width, big1.height);
+        g.fillRect(xposarray[5], yposarray[5], big2.width, big2.height);
+        g.fillRect(xposarray[6], yposarray[6], big3.width, big3.height);
+        g.fillRect(xposarray[7], yposarray[7], big4.width, big4.height);
+        g.fillRect(xposarray[8], yposarray[8], big3.width, big3.height);
+        g.fillRect(xposarray[9], yposarray[9], big4.width, big4.height);
+        
+        
        
-       
+
+
 // type out you win if player wins the game 
-       if (win){
-           // set background forblank screen
-           g.setColor(background);
-           g.fillRect(0, 0, WIDTH, HEIGHT);
-           
-           //set main bold tst for "Maze Complete"
-           g.setFont(winner);
-           g.setColor(text);
-           g.drawString("YOU WIN", 175, 200);
-           
-           //set text to ask player if they want to play again
-           g.setFont(playagain);
-           g.drawString("Play Again?", 340, 400);
-           
-           //set yes box
-           g.drawString("Yes", 450, 500);
-           g.fillRect(yes.x, yes.y, yes.width, yes.height);
-           
-           //set no box
-           g.drawString("No", 450, 600);
-           g.fillRect(no.x, no.y, no.width, no.height);
-       }
+        if (win) {
+            // set background forblank screen
+            g.setColor(background);
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+
+            //set main bold tst for "Maze Complete"
+            g.setFont(winner);
+            g.setColor(text);
+            g.drawString("YOU WIN", 175, 200);
+
+            //set text to ask player if they want to play again
+            g.setFont(playagain);
+            g.drawString("Play Again?", 340, 400);
+
+            //set yes box
+            g.drawString("Yes", 450, 500);
+            g.fillRect(yes.x, yes.y, yes.width, yes.height);
+
+            //set no box
+            g.drawString("No", 450, 600);
+            g.fillRect(no.x, no.y, no.width, no.height);
+        }
 
 
 
@@ -210,64 +209,83 @@ public class game extends JComponent implements ActionListener {
     public void gameLoop() {
         moveplayer();
         collisiondetect();
+        largerBigger();
+
     }
-    
-    private void moveplayer(){
+
+    private void largerBigger() {
+if (allgenerated = false){
+      
+        for (int i = 0; i <= 9; i++) {
+
+            yposition = (int) (Math.random() * (800 - 1 + 1)) + 1;
+            xposition = (int) (Math.random() * (1000 - 1 + 1)) + 1;
+
+
+            xposarray[i] = xposition;
+            yposarray[i] = yposition;
+        }
+        allgenerated = true;
+
+        }
+    }
+
+    private void moveplayer() {
         // move player up contol
-        if (playerup){
+        if (playerup) {
             player.y = player.y - playerspeed;
-            
-        }else if (playerdown){
+
+        } else if (playerdown) {
             player.y = player.y + playerspeed;
         }
-        
+
         //move player left/right
-        if (playerright){
+        if (playerright) {
             player.x = player.x + playerspeed;
-        }else if (playerleft){
+        } else if (playerleft) {
             player.x = player.x - playerspeed;
         }
-        
+
         // make the player unable to go off the screen
         // too far up
-        if (player.y <0){
+        if (player.y < 0) {
             player.y = 0;
         }
         //player gone too far dow
-        
-        if (player.y + player.height > HEIGHT){
+
+        if (player.y + player.height > HEIGHT) {
             player.y = HEIGHT - player.height;
         }
-        
+
         // too far left
-        if (player.x <0){
+        if (player.x < 0) {
             player.x = 0;
         }
         //player gone too far right
-        
-        if (player.x + player.width > WIDTH){
+
+        if (player.x + player.width > WIDTH) {
             player.x = WIDTH - player.width;
         }
-        
-        
+
+
     }
-    
-    private void collisiondetect (){
-        if (player.intersects(end)){
-            
+
+    private void collisiondetect() {
+        if (player.intersects(end)) {
+
             win = true;
         }
-        
-        if (yes.contains(mousex, mousey)){
+
+        if (yes.contains(mousex, mousey)) {
             win = false;
-           player.x = 980;
-           player.y = 780;
-            
+            player.x = 980;
+            player.y = 780;
+
         }
-        
-        if (no.contains(mousex, mousey)){
+
+        if (no.contains(mousex, mousey)) {
             System.exit(0);
-            
+
         }
     }
 
@@ -277,10 +295,10 @@ public class game extends JComponent implements ActionListener {
         // if a mouse button has been pressed down
         @Override
         public void mousePressed(MouseEvent e) {
-            if (win){
+            if (win) {
                 mousex = e.getX();
                 mousey = e.getY();
-                
+
             }
         }
 
@@ -307,41 +325,41 @@ public class game extends JComponent implements ActionListener {
         @Override
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
-            
-        // player up/ down controls
-            if (keyCode == KeyEvent.VK_UP){
+
+            // player up/ down controls
+            if (keyCode == KeyEvent.VK_UP) {
                 playerup = true;
-            }else if (keyCode == KeyEvent.VK_DOWN){
+            } else if (keyCode == KeyEvent.VK_DOWN) {
                 playerdown = true;
             }
-            
+
             // mover player left/rigth controls
-            if (keyCode == KeyEvent.VK_RIGHT){
+            if (keyCode == KeyEvent.VK_RIGHT) {
                 playerright = true;
-            }else if (keyCode == KeyEvent.VK_LEFT){
+            } else if (keyCode == KeyEvent.VK_LEFT) {
                 playerleft = true;
-        }
+            }
         }
 
         // if a key has been released
         @Override
         public void keyReleased(KeyEvent e) {
-            
+
             int keyCode = e.getKeyCode();
-            
+
             // player up/ down controls
-            if (keyCode == KeyEvent.VK_UP){
+            if (keyCode == KeyEvent.VK_UP) {
                 playerup = false;
-            }else if (keyCode == KeyEvent.VK_DOWN){
+            } else if (keyCode == KeyEvent.VK_DOWN) {
                 playerdown = false;
             }
-            
-               // mover player left/rigth controls
-            if (keyCode == KeyEvent.VK_RIGHT){
+
+            // mover player left/rigth controls
+            if (keyCode == KeyEvent.VK_RIGHT) {
                 playerright = false;
-            }else if (keyCode == KeyEvent.VK_LEFT){
+            } else if (keyCode == KeyEvent.VK_LEFT) {
                 playerleft = false;
-        }
+            }
         }
     }
 
