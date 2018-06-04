@@ -48,7 +48,7 @@ public class game extends JComponent implements ActionListener {
     boolean playerleft = false;
     boolean playerright = false;
     // speed of player
-    int playerspeed = 50;
+    int playerspeed = 5;
     // create rectange for the red end square
     Rectangle end = new Rectangle(0, 0, 30, 30);
     //booleans for winning and losing the game
@@ -69,8 +69,8 @@ public class game extends JComponent implements ActionListener {
     int xposition = (int) (Math.random() * (1000 - 1 + 1)) + 1;
     int yposition = (int) (Math.random() * (800 - 1 + 1)) + 1;
     //make array to save randomly generated numbers
-    int[] xposarray = new int[10];
-    int[] yposarray = new int[10];
+    int[] xposarray = new int[20];
+    int[] yposarray = new int[20];
     //make rectangles that make player larger 
     Rectangle big1 = new Rectangle(xposarray[0], yposarray[0], 10, 10);
     Rectangle big2 = new Rectangle(xposarray[1], yposarray[1], 10, 10);
@@ -82,6 +82,17 @@ public class game extends JComponent implements ActionListener {
     Rectangle big8 = new Rectangle(xposarray[7], yposarray[7], 10, 10);
     Rectangle big9 = new Rectangle(xposarray[8], yposarray[8], 10, 10);
     Rectangle big10 = new Rectangle(xposarray[9], yposarray[9], 10, 10);
+    //make rectangles that make player smaller 
+    Rectangle small1 = new Rectangle(xposarray[10], yposarray[10], 10, 10);
+    Rectangle small2 = new Rectangle(xposarray[11], yposarray[11], 10, 10);
+    Rectangle small3 = new Rectangle(xposarray[12], yposarray[12], 10, 10);
+    Rectangle small4 = new Rectangle(xposarray[13], yposarray[13], 10, 10);
+    Rectangle small5 = new Rectangle(xposarray[14], yposarray[14], 10, 10);
+    Rectangle small6 = new Rectangle(xposarray[15], yposarray[15], 10, 10);
+    Rectangle small7 = new Rectangle(xposarray[16], yposarray[16], 10, 10);
+    Rectangle small8 = new Rectangle(xposarray[17], yposarray[17], 10, 10);
+    Rectangle small9 = new Rectangle(xposarray[18], yposarray[18], 10, 10);
+    Rectangle small10 = new Rectangle(xposarray[19], yposarray[19], 10, 10);
     
     //create boolean to stop geneation of grow larger square/only 10 times
      boolean allgenerated = false;
@@ -134,13 +145,13 @@ public class game extends JComponent implements ActionListener {
         // create the starting point of the game
 
         //green rectangle in bottom righthand corner
-        g.setColor(Color.GREEN);
+        g.setColor(text);
         g.fillRect(970, 770, 30, 30);
 
         //ending point of the game 
 
         //red rectangle in top lefhand corner
-        g.setColor(Color.RED);
+        g.setColor(text);
         g.fillRect(end.y, end.x, end.width, end.height);
 
 
@@ -148,7 +159,7 @@ public class game extends JComponent implements ActionListener {
         g.setColor(Color.BLACK);
         g.fillRect(player.x, player.y, player.width, player.height);
 
-        //drw out the squares that make the player grow 
+        //draw out the squares that make the player grow 
         g.setColor(text);
         g.fillRect(xposarray[0], yposarray[0], big1.width, big1.height);
         g.fillRect(xposarray[1], yposarray[1], big2.width, big2.height);
@@ -161,6 +172,18 @@ public class game extends JComponent implements ActionListener {
         g.fillRect(xposarray[8], yposarray[8], big3.width, big3.height);
         g.fillRect(xposarray[9], yposarray[9], big4.width, big4.height);
         
+         //draw out the squares that make the player smaller 
+        g.setColor(Color.WHITE);
+        g.fillRect(xposarray[10], yposarray[10], small1.width, small1.height);
+        g.fillRect(xposarray[11], yposarray[11], small2.width, small2.height);
+        g.fillRect(xposarray[12], yposarray[12], small3.width, small3.height);
+        g.fillRect(xposarray[13], yposarray[13], small4.width, small4.height);
+        g.fillRect(xposarray[14], yposarray[14], small5.width, small5.height);
+        g.fillRect(xposarray[15], yposarray[15], small6.width, small6.height);
+        g.fillRect(xposarray[16], yposarray[16], small7.width, small7.height);
+        g.fillRect(xposarray[17], yposarray[17], small8.width, small8.height);
+        g.fillRect(xposarray[18], yposarray[18], small9.width, small9.height);
+        g.fillRect(xposarray[19], yposarray[19], small10.width, small10.height);
         
        
 
@@ -195,7 +218,7 @@ public class game extends JComponent implements ActionListener {
 
 
 
-        // GAME DRAWING ENDS HERE
+        // GAME DRAWING ENDS HERE  
     }
 
     // This method is used to do any pre-setup you might need to do
@@ -209,14 +232,16 @@ public class game extends JComponent implements ActionListener {
     public void gameLoop() {
         moveplayer();
         collisiondetect();
+        
+        if (allgenerated == false){
         largerBigger();
-
+        }
     }
 
     private void largerBigger() {
-if (allgenerated = false){
+
       
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 19; i++) {
 
             yposition = (int) (Math.random() * (800 - 1 + 1)) + 1;
             xposition = (int) (Math.random() * (1000 - 1 + 1)) + 1;
@@ -225,9 +250,8 @@ if (allgenerated = false){
             xposarray[i] = xposition;
             yposarray[i] = yposition;
         }
-        allgenerated = true;
-
-        }
+allgenerated = true; 
+       
     }
 
     private void moveplayer() {
@@ -271,21 +295,65 @@ if (allgenerated = false){
     }
 
     private void collisiondetect() {
+        //make player win game
         if (player.intersects(end)) {
 
             win = true;
         }
-
+//re set game if player clicks yes box
         if (yes.contains(mousex, mousey)) {
             win = false;
             player.x = 980;
             player.y = 780;
 
         }
-
+//exit game if player clicks no box
         if (no.contains(mousex, mousey)) {
             System.exit(0);
 
+        }
+        
+        //make player grow if it collides with the green squares
+        
+        if (player.intersects(big1)){
+            player.height = player.height +3;
+             player.width = player.width +3;
+        }
+        if (player.intersects(big2)){
+            player.height = player.height +3;
+             player.width = player.width +3;
+        }
+        if (player.intersects(big3)){
+            player.height = player.height +3;
+             player.width = player.width +3;
+        }
+        if (player.intersects(big4)){
+            player.height = player.height +3;
+             player.width = player.width +3;
+        }
+        if (player.intersects(big5)){
+            player.height = player.height +3;
+             player.width = player.width +3;
+        }
+        if (player.intersects(big6)){
+            player.height = player.height +3;
+             player.width = player.width +3;
+        }
+        if (player.intersects(big7)){
+            player.height = player.height +3;
+             player.width = player.width +3;
+        }
+        if (player.intersects(big8)){
+            player.height = player.height +3;
+             player.width = player.width +3;
+        }
+        if (player.intersects(big9)){
+            player.height = player.height +3;
+             player.width = player.width +3;
+        }
+        if (player.intersects(big10)){
+            player.height = player.height +3;
+             player.width = player.width +3;
         }
     }
 
