@@ -308,7 +308,7 @@ allgenerated = true;
         if (no.contains(mousex, mousey)) {
             System.exit(0);
 
-        }
+        }  
         
         //make player grow if it collides with the green squares
          for(int i = 0; i < 10; i++){
