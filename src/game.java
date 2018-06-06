@@ -25,6 +25,7 @@ public class game extends JComponent implements ActionListener {
     // Height and Width of our game
     static final int WIDTH = 1000;
     static final int HEIGHT = 800;
+    
     //Title of the window
     String title = "My Game";
     // sets the framerate and delay for our game
@@ -72,37 +73,27 @@ public class game extends JComponent implements ActionListener {
     int[] xposarray = new int[20];
     int[] yposarray = new int[20];
     //make rectangles that make player larger 
-    Rectangle big1 = new Rectangle(xposarray[0], yposarray[0], 10, 10);
-    Rectangle big2 = new Rectangle(xposarray[1], yposarray[1], 10, 10);
-    Rectangle big3 = new Rectangle(xposarray[2], yposarray[2], 10, 10);
-    Rectangle big4 = new Rectangle(xposarray[3], yposarray[3], 10, 10);
-    Rectangle big5 = new Rectangle(xposarray[4], yposarray[4], 10, 10);
-    Rectangle big6 = new Rectangle(xposarray[5], yposarray[5], 10, 10);
-    Rectangle big7 = new Rectangle(xposarray[6], yposarray[6], 10, 10);
-    Rectangle big8 = new Rectangle(xposarray[7], yposarray[7], 10, 10);
-    Rectangle big9 = new Rectangle(xposarray[8], yposarray[8], 10, 10);
-    Rectangle big10 = new Rectangle(xposarray[9], yposarray[9], 10, 10);
+    Rectangle [] bigrecs = new Rectangle [10];
+    //create boolean to rneder the rectangles
+    boolean[] Lrenderable  = new boolean[10];
     //make rectangles that make player smaller 
-    Rectangle small1 = new Rectangle(xposarray[10], yposarray[10], 10, 10);
-    Rectangle small2 = new Rectangle(xposarray[11], yposarray[11], 10, 10);
-    Rectangle small3 = new Rectangle(xposarray[12], yposarray[12], 10, 10);
-    Rectangle small4 = new Rectangle(xposarray[13], yposarray[13], 10, 10);
-    Rectangle small5 = new Rectangle(xposarray[14], yposarray[14], 10, 10);
-    Rectangle small6 = new Rectangle(xposarray[15], yposarray[15], 10, 10);
-    Rectangle small7 = new Rectangle(xposarray[16], yposarray[16], 10, 10);
-    Rectangle small8 = new Rectangle(xposarray[17], yposarray[17], 10, 10);
-    Rectangle small9 = new Rectangle(xposarray[18], yposarray[18], 10, 10);
-    Rectangle small10 = new Rectangle(xposarray[19], yposarray[19], 10, 10);
+    Rectangle [] smallrecs = new Rectangle [10];
+    //create another boolean to render the smaller squares
+    boolean[] Srenderable  = new boolean[10];
+ 
+   
     
     //create boolean to stop geneation of grow larger square/only 10 times
      boolean allgenerated = false;
-
+     JFrame frame;
+     static game game;
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
     public game() {
+        preSetup();
         // creates a windows to show my game
-        JFrame frame = new JFrame(title);
+        frame = new JFrame(title);
 
         // sets the size of my game
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -161,30 +152,23 @@ public class game extends JComponent implements ActionListener {
 
         //draw out the squares that make the player grow 
         g.setColor(text);
-        g.fillRect(xposarray[0], yposarray[0], big1.width, big1.height);
-        g.fillRect(xposarray[1], yposarray[1], big2.width, big2.height);
-        g.fillRect(xposarray[2], yposarray[2], big3.width, big3.height);
-        g.fillRect(xposarray[3], yposarray[3], big4.width, big4.height);
-        g.fillRect(xposarray[4], yposarray[4], big1.width, big1.height);
-        g.fillRect(xposarray[5], yposarray[5], big2.width, big2.height);
-        g.fillRect(xposarray[6], yposarray[6], big3.width, big3.height);
-        g.fillRect(xposarray[7], yposarray[7], big4.width, big4.height);
-        g.fillRect(xposarray[8], yposarray[8], big3.width, big3.height);
-        g.fillRect(xposarray[9], yposarray[9], big4.width, big4.height);
-        
+      
+    for(int i = 0; i < 10; i++){
+      
+       if(Lrenderable[i]){
+ 
+           g.fillRect(bigrecs[i].x, bigrecs[i].y, bigrecs[i].width, bigrecs[i].height);
+       }
+    }
          //draw out the squares that make the player smaller 
         g.setColor(Color.WHITE);
-        g.fillRect(xposarray[10], yposarray[10], small1.width, small1.height);
-        g.fillRect(xposarray[11], yposarray[11], small2.width, small2.height);
-        g.fillRect(xposarray[12], yposarray[12], small3.width, small3.height);
-        g.fillRect(xposarray[13], yposarray[13], small4.width, small4.height);
-        g.fillRect(xposarray[14], yposarray[14], small5.width, small5.height);
-        g.fillRect(xposarray[15], yposarray[15], small6.width, small6.height);
-        g.fillRect(xposarray[16], yposarray[16], small7.width, small7.height);
-        g.fillRect(xposarray[17], yposarray[17], small8.width, small8.height);
-        g.fillRect(xposarray[18], yposarray[18], small9.width, small9.height);
-        g.fillRect(xposarray[19], yposarray[19], small10.width, small10.height);
-        
+      
+    for(int i = 0; i < 10; i++){
+       
+       if(Srenderable[i]){
+           g.fillRect(smallrecs[i].x, smallrecs[i].y, smallrecs[i].width, smallrecs[i].height);
+       }
+    }
        
 
 
@@ -225,6 +209,20 @@ public class game extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
+     
+   for(int i = 0; i < 10; i++){
+        Lrenderable [i] = true;
+        bigrecs[i] = new Rectangle(xposarray[i], yposarray[i], 10, 10);
+       
+    }
+   for(int i = 0; i < 10; i++){
+        Srenderable [i] = true;
+         smallrecs[i] = new Rectangle(xposarray[i], yposarray[i], 10, 10);
+       
+    }
+   
+   
+    
     }
 
     // The main game loop
@@ -235,6 +233,7 @@ public class game extends JComponent implements ActionListener {
         
         if (allgenerated == false){
         largerBigger();
+        preSetup();
         }
     }
 
@@ -302,9 +301,7 @@ allgenerated = true;
         }
 //re set game if player clicks yes box
         if (yes.contains(mousex, mousey)) {
-            win = false;
-            player.x = 980;
-            player.y = 780;
+            reset();
 
         }
 //exit game if player clicks no box
@@ -314,47 +311,21 @@ allgenerated = true;
         }
         
         //make player grow if it collides with the green squares
+         for(int i = 0; i < 10; i++){
+       if (player.intersects(bigrecs[i]) && Srenderable[i]){
+            player.height = player.height +3;
+             player.width = player.width +3;
+             Srenderable[i] = false;
+        }
+    }
+          for(int i = 0; i < 10; i++){
+       if (player.intersects(smallrecs[i]) && Lrenderable[i]){
+            player.height = player.height -3;
+             player.width = player.width -3;
+             Lrenderable[i] = false;
+        }
+    }
         
-        if (player.intersects(big1)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
-        if (player.intersects(big2)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
-        if (player.intersects(big3)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
-        if (player.intersects(big4)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
-        if (player.intersects(big5)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
-        if (player.intersects(big6)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
-        if (player.intersects(big7)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
-        if (player.intersects(big8)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
-        if (player.intersects(big9)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
-        if (player.intersects(big10)){
-            player.height = player.height +3;
-             player.width = player.width +3;
-        }
     }
 
     // Used to implement any of the Mouse Actions
@@ -433,9 +404,17 @@ allgenerated = true;
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        preSetup();
+        
         gameLoop();
         repaint();
+    }
+    
+    private void reset () {
+        frame.dispose();
+        win = false;
+        lose = false;
+        player.setLocation(980, 780);
+        
     }
 
     /**
@@ -443,6 +422,6 @@ allgenerated = true;
      */
     public static void main(String[] args) {
         // creates an instance of my game
-        game game = new game();
+        game = new game();
     }
 }
