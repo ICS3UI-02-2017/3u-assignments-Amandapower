@@ -80,6 +80,9 @@ public class game extends JComponent implements ActionListener {
     Rectangle [] smallrecs = new Rectangle [10];
     //create another boolean to render the smaller squares
     boolean[] Srenderable  = new boolean[10];
+    
+    //boolean for start screen
+    boolean start = true;
  
    
     
@@ -169,6 +172,14 @@ public class game extends JComponent implements ActionListener {
            g.fillRect(smallrecs[i].x, smallrecs[i].y, smallrecs[i].width, smallrecs[i].height);
        }
     }
+    
+    //create the starting screen of game
+    if (start){
+        //set background to blank screen
+        g.setColor(background);
+        g.fillRect(0, 0, WIDTH, HEIGHT);       
+        
+    }
        
 
 
@@ -195,6 +206,8 @@ public class game extends JComponent implements ActionListener {
             g.drawString("No", 450, 600);
             g.fillRect(no.x, no.y, no.width, no.height);
         }
+        
+        
 
 
 
@@ -209,7 +222,7 @@ public class game extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
-     
+     largerBigger();
    for(int i = 0; i < 10; i++){
         Lrenderable [i] = true;
         bigrecs[i] = new Rectangle(xposarray[i], yposarray[i], 10, 10);
@@ -217,7 +230,7 @@ public class game extends JComponent implements ActionListener {
     }
    for(int i = 0; i < 10; i++){
         Srenderable [i] = true;
-         smallrecs[i] = new Rectangle(xposarray[i], yposarray[i], 10, 10);
+         smallrecs[i] = new Rectangle(xposarray[10 + i], yposarray[10 + i], 10, 10);
        
     }
    
@@ -235,6 +248,14 @@ public class game extends JComponent implements ActionListener {
         largerBigger();
         preSetup();
         }
+        if (yes.contains(mousex, mousey)) {
+       
+               reset(); 
+           
+            
+
+        }
+       
     }
 
     private void largerBigger() {
@@ -301,7 +322,10 @@ allgenerated = true;
         }
 //re set game if player clicks yes box
         if (yes.contains(mousex, mousey)) {
-            reset();
+       
+               reset(); 
+           
+            
 
         }
 //exit game if player clicks no box
@@ -312,17 +336,17 @@ allgenerated = true;
         
         //make player grow if it collides with the green squares
          for(int i = 0; i < 10; i++){
-       if (player.intersects(bigrecs[i]) && Srenderable[i]){
+       if (player.intersects(bigrecs[i]) && Lrenderable[i]){
             player.height = player.height +3;
              player.width = player.width +3;
-             Srenderable[i] = false;
+             Lrenderable[i] = false;
         }
     }
           for(int i = 0; i < 10; i++){
-       if (player.intersects(smallrecs[i]) && Lrenderable[i]){
+       if (player.intersects(smallrecs[i]) && Srenderable[i]){
             player.height = player.height -3;
              player.width = player.width -3;
-             Lrenderable[i] = false;
+             Srenderable[i] = false;
         }
     }
         
@@ -410,10 +434,21 @@ allgenerated = true;
     }
     
     private void reset () {
-        frame.dispose();
+        //frame.dispose();
         win = false;
         lose = false;
         player.setLocation(980, 780);
+         playerup = false;
+     playerdown = false;
+     playerleft = false;
+     playerright = false;
+      playerspeed = 5;
+         mousex = 0;
+     mousey = 0;
+      //allgenerated = false;
+    
+        
+        
         
     }
 
