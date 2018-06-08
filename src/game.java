@@ -25,7 +25,6 @@ public class game extends JComponent implements ActionListener {
     // Height and Width of our game
     static final int WIDTH = 1000;
     static final int HEIGHT = 800;
-    
     //Title of the window
     String title = "My Game";
     // sets the framerate and delay for our game
@@ -60,9 +59,14 @@ public class game extends JComponent implements ActionListener {
     //set custom texts
     Font winner = new Font("arial", Font.BOLD, 150);
     Font playagain = new Font("arial", Font.BOLD, 70);
+    Font welcome = new Font("arial", Font.BOLD, 80);
+    Font controls = new Font("arial", Font.BOLD, 20);
     //create rectangles for the yes and no options
     Rectangle yes = new Rectangle(600, 450, 50, 50);
     Rectangle no = new Rectangle(600, 550, 50, 50);
+    //rectangles fpr enter maze and exit
+    Rectangle exit = new Rectangle(700, 700, 300, 100);
+    Rectangle enter = new Rectangle(0, 700, 530, 100);
     //mouse variables for end game screen
     int mousex = 0;
     int mousey = 0;
@@ -73,26 +77,23 @@ public class game extends JComponent implements ActionListener {
     int[] xposarray = new int[20];
     int[] yposarray = new int[20];
     //make rectangles that make player larger 
-    Rectangle [] bigrecs = new Rectangle [10];
+    Rectangle[] bigrecs = new Rectangle[10];
     //create boolean to rneder the rectangles
-    boolean[] Lrenderable  = new boolean[10];
+    boolean[] Lrenderable = new boolean[10];
     //make rectangles that make player smaller 
-    Rectangle [] smallrecs = new Rectangle [10];
+    Rectangle[] smallrecs = new Rectangle[10];
     //create another boolean to render the smaller squares
-    boolean[] Srenderable  = new boolean[10];
-    
+    boolean[] Srenderable = new boolean[10];
     //boolean for start screen
     boolean start = true;
- 
-   
-    
     //create boolean to stop geneation of grow larger square/only 10 times
-     boolean allgenerated = false;
-     JFrame frame;
-     static game game;
+    boolean allgenerated = false;
+    JFrame frame;
+    static game game;
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
+
     public game() {
         preSetup();
         // creates a windows to show my game
@@ -155,32 +156,66 @@ public class game extends JComponent implements ActionListener {
 
         //draw out the squares that make the player grow 
         g.setColor(text);
-      
-    for(int i = 0; i < 10; i++){
-      
-       if(Lrenderable[i]){
- 
-           g.fillRect(bigrecs[i].x, bigrecs[i].y, bigrecs[i].width, bigrecs[i].height);
-       }
-    }
-         //draw out the squares that make the player smaller 
+
+        for (int i = 0; i < 10; i++) {
+
+            if (Lrenderable[i]) {
+
+                g.fillRect(bigrecs[i].x, bigrecs[i].y, bigrecs[i].width, bigrecs[i].height);
+            }
+        }
+        //draw out the squares that make the player smaller 
         g.setColor(Color.WHITE);
-      
-    for(int i = 0; i < 10; i++){
-       
-       if(Srenderable[i]){
-           g.fillRect(smallrecs[i].x, smallrecs[i].y, smallrecs[i].width, smallrecs[i].height);
-       }
-    }
-    
-    //create the starting screen of game
-    if (start){
-        //set background to blank screen
-        g.setColor(background);
-        g.fillRect(0, 0, WIDTH, HEIGHT);       
-        
-    }
-       
+
+        for (int i = 0; i < 10; i++) {
+
+            if (Srenderable[i]) {
+                g.fillRect(smallrecs[i].x, smallrecs[i].y, smallrecs[i].width, smallrecs[i].height);
+            }
+        }
+
+        //create the starting screen of game
+        if (start) {
+            //set background to blank screen
+            g.setColor(background);
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+
+            //text on start screen
+            g.setFont(welcome);
+            g.setColor(text);
+            g.drawString("WELCOME TO THE GAME", 8, 100);
+
+            //controls section
+            g.setFont(controls);
+            g.setColor(text);
+            g.drawString("CONTROLS", 450, 200);
+
+            g.drawString("LEFT ARROW - GO LEFT", 100, 270);
+
+            g.drawString("RIGHT ARROW - GO RIGHT", 100, 340);
+
+            g.drawString("UP ARROW - GO UP", 100, 410);
+
+            g.drawString("DOWN ARROW - GO DOWN", 600, 410);
+
+            g.drawString("GREEN SQUARE - GROW LARGER", 600, 270);
+
+            g.drawString("WHITE SQUARE - GROW SMALLER", 600, 340);
+
+
+            //play and exit options
+            g.setFont(welcome);
+
+            g.drawString("ENTER MAZE", 10, 670);
+            g.fillRect(enter.x, enter.y, enter.width, enter.height);
+
+            g.drawString("EXIT", 700, 670);
+            g.fillRect(exit.x, exit.y, exit.width, exit.height);
+
+
+
+        }
+
 
 
 // type out you win if player wins the game 
@@ -206,8 +241,8 @@ public class game extends JComponent implements ActionListener {
             g.drawString("No", 450, 600);
             g.fillRect(no.x, no.y, no.width, no.height);
         }
-        
-        
+
+
 
 
 
@@ -222,20 +257,20 @@ public class game extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
-     largerBigger();
-   for(int i = 0; i < 10; i++){
-        Lrenderable [i] = true;
-        bigrecs[i] = new Rectangle(xposarray[i], yposarray[i], 10, 10);
-       
-    }
-   for(int i = 0; i < 10; i++){
-        Srenderable [i] = true;
-         smallrecs[i] = new Rectangle(xposarray[10 + i], yposarray[10 + i], 10, 10);
-       
-    }
-   
-   
-    
+        largerBigger();
+        for (int i = 0; i < 10; i++) {
+            Lrenderable[i] = true;
+            bigrecs[i] = new Rectangle(xposarray[i], yposarray[i], 10, 10);
+
+        }
+        for (int i = 0; i < 10; i++) {
+            Srenderable[i] = true;
+            smallrecs[i] = new Rectangle(xposarray[10 + i], yposarray[10 + i], 10, 10);
+
+        }
+
+
+
     }
 
     // The main game loop
@@ -243,24 +278,24 @@ public class game extends JComponent implements ActionListener {
     public void gameLoop() {
         moveplayer();
         collisiondetect();
-        
-        if (allgenerated == false){
-        largerBigger();
-        preSetup();
+
+        if (allgenerated == false) {
+            largerBigger();
+            preSetup();
         }
         if (yes.contains(mousex, mousey)) {
-       
-               reset(); 
-           
-            
+
+            reset();
+
+
 
         }
-       
+
     }
 
     private void largerBigger() {
 
-      
+
         for (int i = 0; i <= 19; i++) {
 
             yposition = (int) (Math.random() * (800 - 1 + 1)) + 1;
@@ -270,8 +305,8 @@ public class game extends JComponent implements ActionListener {
             xposarray[i] = xposition;
             yposarray[i] = yposition;
         }
-allgenerated = true; 
-       
+        allgenerated = true;
+
     }
 
     private void moveplayer() {
@@ -322,34 +357,35 @@ allgenerated = true;
         }
 //re set game if player clicks yes box
         if (yes.contains(mousex, mousey)) {
-       
-               reset(); 
-           
-            
-
+            reset();
         }
 //exit game if player clicks no box
         if (no.contains(mousex, mousey)) {
             System.exit(0);
+        }
+        if (enter.contains(mousex, mousey)) {
+           start = false;
+        }
+        if (exit.contains(mousex, mousey)) {
+            System.exit(0);
+        }
 
-        }  
-        
         //make player grow if it collides with the green squares
-         for(int i = 0; i < 10; i++){
-       if (player.intersects(bigrecs[i]) && Lrenderable[i]){
-            player.height = player.height +3;
-             player.width = player.width +3;
-             Lrenderable[i] = false;
+        for (int i = 0; i < 10; i++) {
+            if (player.intersects(bigrecs[i]) && Lrenderable[i]) {
+                player.height = player.height + 4;
+                player.width = player.width + 4;
+                Lrenderable[i] = false;
+            }
         }
-    }
-          for(int i = 0; i < 10; i++){
-       if (player.intersects(smallrecs[i]) && Srenderable[i]){
-            player.height = player.height -3;
-             player.width = player.width -3;
-             Srenderable[i] = false;
+        for (int i = 0; i < 10; i++) {     
+            if (player.intersects(smallrecs[i]) && Srenderable[i]) {
+                player.height = player.height - 3;
+                player.width = player.width - 3;
+                Srenderable[i] = false;
+            }
         }
-    }
-        
+
     }
 
     // Used to implement any of the Mouse Actions
@@ -359,6 +395,11 @@ allgenerated = true;
         @Override
         public void mousePressed(MouseEvent e) {
             if (win) {
+                mousex = e.getX();
+                mousey = e.getY();
+
+            }
+            if (start) {
                 mousex = e.getX();
                 mousey = e.getY();
 
@@ -428,28 +469,37 @@ allgenerated = true;
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        
+
         gameLoop();
         repaint();
     }
-    
-    private void reset () {
+
+    private void reset() {
         //frame.dispose();
+        preSetup();
+        //make it so the player hasn't won or lost yet
         win = false;
         lose = false;
+        //place player back at the start of the maze
         player.setLocation(980, 780);
-         playerup = false;
-     playerdown = false;
-     playerleft = false;
-     playerright = false;
-      playerspeed = 5;
-         mousex = 0;
-     mousey = 0;
-      //allgenerated = false;
-    
-        
-        
-        
+        //reset controls for movement
+        playerup = false;
+        playerdown = false;
+        playerleft = false;
+        playerright = false;
+        //reset players speed to 5
+        playerspeed = 5;
+        //reset mouse cooridinates to 0, 0
+        mousex = 0;
+        mousey = 0;
+        //reset the player to the original size
+        player.height = 20;
+        player.width = 20;
+        //allgenerated = false;
+
+
+
+
     }
 
     /**
