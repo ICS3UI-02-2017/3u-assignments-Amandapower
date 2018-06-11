@@ -69,6 +69,9 @@ public class game extends JComponent implements ActionListener {
     //rectangles fpr enter maze and exit
     Rectangle exit = new Rectangle(700, 700, 300, 100);
     Rectangle enter = new Rectangle(0, 700, 530, 100);
+    //loose game options
+    Rectangle quitgame = new Rectangle(180, 350, 60, 60);
+    Rectangle tryagain = new Rectangle(180, 550, 60, 60);
     //mouse variables for end game screen
     int mousex = 0;
     int mousey = 0;
@@ -86,6 +89,12 @@ public class game extends JComponent implements ActionListener {
     Rectangle[] smallrecs = new Rectangle[10];
     //create another boolean to render the smaller squares
     boolean[] Srenderable = new boolean[10];
+    
+    //smaller colour
+    Color smaller = new Color (205, 241, 241);
+    
+    //arger colour
+       Color larger = new Color (47, 162, 165);
     
     List<Block> list = new ArrayList<Block>();
     //boolean for start screen
@@ -159,7 +168,7 @@ public class game extends JComponent implements ActionListener {
         g.fillRect(player.x, player.y, player.width, player.height);
 
         //draw out the squares that make the player grow 
-        g.setColor(text);
+        g.setColor(larger);
 
         for (int i = 0; i < 10; i++) {
 
@@ -169,9 +178,9 @@ public class game extends JComponent implements ActionListener {
             }
         }
         //draw out the squares that make the player smaller 
-        g.setColor(Color.WHITE);
+        g.setColor(smaller);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {   
 
             if (Srenderable[i]) {
                 g.fillRect(smallrecs[i].x, smallrecs[i].y, smallrecs[i].width, smallrecs[i].height);
@@ -185,6 +194,8 @@ public class game extends JComponent implements ActionListener {
 
         //create the starting screen of game
         if (start) {
+            player.x = 980;
+            player.y = 780;
             //set background to blank screen
             g.setColor(background);
             g.fillRect(0, 0, WIDTH, HEIGHT);
@@ -249,6 +260,30 @@ public class game extends JComponent implements ActionListener {
             //set no box
             g.drawString("No", 450, 600);
             g.fillRect(no.x, no.y, no.width, no.height);
+        }
+        
+        //create a screen for losing the game
+        if (lose){
+            // make screen go blank 
+            g.setColor(background);
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+            
+            //set you lose text
+            g.setFont(winner);
+            g.setColor(text);
+            g.drawString("MAZE FAILED", 0, 150);
+            
+            //create exit game option
+            g.setFont(playagain);
+            g.drawString("QUIT MAZE?", 310, 400);
+            g.fillRect(quitgame.x, quitgame.y, quitgame.width, quitgame.height);
+            //create exit game option
+            g.setFont(playagain);
+            g.drawString("PLAY AGAIN?", 310, 600);
+            g.fillRect(tryagain.x, tryagain.y, tryagain.width, tryagain.height);
+            
+            
+            
         }
 
 
@@ -381,6 +416,17 @@ public class game extends JComponent implements ActionListener {
         if (exit.contains(mousex, mousey)) {
             System.exit(0);
         }
+        
+         if (tryagain.contains(mousex, mousey)) {
+            reset();
+        }
+         
+         if (quitgame.contains(mousex, mousey)) {
+           System.exit(0);
+        }
+        
+       
+
 
         //make player grow if it collides with the green squares
         for (int i = 0; i < 10; i++) {
@@ -412,6 +458,12 @@ public class game extends JComponent implements ActionListener {
 
             }
             if (start) {
+                mousex = e.getX();
+                mousey = e.getY();
+
+            }
+            
+            if (lose) {
                 mousex = e.getX();
                 mousey = e.getY();
 
@@ -540,7 +592,6 @@ public class game extends JComponent implements ActionListener {
         public void collisions (Rectangle player){
             if (player.intersects(block)){
                 lose = true;
-                System.out.println("looooooooooose!!S");
             }               
         }
         
