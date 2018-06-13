@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Assignment6;
+package assignment5;
 
 /**
  *
@@ -16,34 +16,57 @@ public class A6Q7 {
      */
     public static void main(String[] args) {
 
-        // create boolean array up to 1001
+        // create a boolean array up to 1001
         boolean[] array = new boolean[1001];
 
-        // mark everything in the boolean array as true(prime)
         for (int i = 0; i < array.length; i++) {
             array[i] = true;
         }
 
-        // set the first prime number to 2
+        //make the first prime number equal 2
         int p = 2;
-
-        // go through the array and find the nonprime numbers
-        for (int i = 2; i < array.length; i++) {
-            //multiply the position in the array by the most recent prime number
-            int answer = p * i;
-            // mark the answer from the previous calculation as flase (not prime)
-            array[answer] = false;
-            
-            if (i>2 && i != p*i){
-                array [i]= true;
-                p = i;
-                
+        while (p <= 500) {
+            // make a loop to run throughthe array up until 1000
+            for (int i = 2; i < array.length / p; i++) {
+                int answer = p * i;
+                array[answer] = false;
             }
-            p= i;
-            System.out.println(p);
+            
+            //add one to p
+            p++;
+            
+            while(array [p] == false){
+                p++;
+            }
         }
 
-
-
+        for (int i = 2; i < array.length; i++) {
+            if (array[i]) {
+                System.out.print(i + ", ");
+            }
+        }
     }
+
 }
+/*
+   // create a boolean array up to 1001
+        boolean [] array = new boolean [1001];
+        
+        for(int i = 0; i < array.length; i++){
+            array[i] = true;
+        }
+        
+        //make the first prime number equal 2
+        int p = 2;
+        
+        // make a loop to run throughthe array up until 1000
+        for (int i =2; i<array.length/p; i++){
+            int answer = p*i;
+            array [answer]= false;            
+        }
+        for (int x = 0; x<array.length; x++){
+            if (array[x] == false){
+                System.out.print(x + ", ");
+            }
+        }
+*/
