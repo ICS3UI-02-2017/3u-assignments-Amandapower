@@ -1,16 +1,17 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package Assignment7;
 
 /**
  *
- * @author powea5594
+ * @author Amanda
  */
 public class A7Q1 {
     
-    public static double circleArea (double a){
+      public static double circleArea (double a){
         double area = Math.PI*a*a;
         return area;
     }
@@ -70,14 +71,14 @@ public class A7Q1 {
       }
       }
       
-        public static double lastDigit (double a){
+        public static int lastDigit (double a){
      double last =a%10;
      double answer = last;
      if (a<0){
          last = a*-1;
        answer = last%10;
      }
-     return answer;
+     return (int) answer;
         }
         
         public static int firstDigit (int a){
@@ -87,23 +88,27 @@ public class A7Q1 {
             return Math.abs(a);
         }
         
-        public static boolean allDigitsOdd (int a){
-            boolean answer = true;
-            
-            
+public static boolean alldigitsodd (int a){
+    while (a>=10){
+        int answer = a%10;
+        if (answer%2 == 0){
+            return false;
         }
-        
-        
-        
-      
-      
-    
-    
-    
- public static void main(String[] args) {
-      boolean test = allDigitsOdd (223478);
-      System.out.println(test);
+        a/=10;
     }
-   
-  
+    if (a%2 == 0){
+        return false;
+    }
+    return true;
+}
+       
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+      
+
+        
+    }
+    
 }
