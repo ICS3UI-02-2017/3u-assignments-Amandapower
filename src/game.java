@@ -14,6 +14,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.Timer;
 
 /**
@@ -37,28 +39,28 @@ public class game extends JComponent implements ActionListener {
     Timer gameTimer;
     // YOUR GAME VARIABLES WOULD GO HERE
     //background colour (green/blue)
-    Color background = new Color(0, 51, 51);
+    Color background = new Color(8, 170, 170);
     // costom font type and size
-    Font boldfont = new Font("arial", Font.BOLD, 27);
+    Font boldFont = new Font("arial", Font.BOLD, 27);
     //create variable for character that will go through the maze
     Rectangle player = new Rectangle(980, 780, 20, 20);
     //create booleans for player movement
-    boolean playerup = false;
-    boolean playerdown = false;
-    boolean playerleft = false;
-    boolean playerright = false;
+    boolean playerUp = false;
+    boolean playerDown = false;
+    boolean playerLeft = false;
+    boolean playerRight = false;
     // speed of player
-    int playerspeed = 5;
+    int playerSpeed = 4;
     // create rectange for the red end square
     Rectangle end = new Rectangle(0, 0, 30, 30);
     //booleans for winning and losing the game
     boolean win = false;
     boolean lose = false;
     //colour for text on the win game + end game screen
-    Color text = new Color(120, 249, 133);
+    Color text = new Color(88, 211, 211);
     //set custom texts
     Font winner = new Font("arial", Font.BOLD, 150);
-    Font playagain = new Font("arial", Font.BOLD, 70);
+    Font playAgain = new Font("arial", Font.BOLD, 70);
     Font welcome = new Font("arial", Font.BOLD, 80);
     Font controls = new Font("arial", Font.BOLD, 20);
     //create rectangles for the yes and no options
@@ -67,27 +69,37 @@ public class game extends JComponent implements ActionListener {
     //rectangles fpr enter maze and exit
     Rectangle exit = new Rectangle(700, 700, 300, 100);
     Rectangle enter = new Rectangle(0, 700, 530, 100);
+    //loose game options
+    Rectangle quitGame = new Rectangle(180, 350, 60, 60);
+    Rectangle tryAgain = new Rectangle(180, 550, 60, 60);
     //mouse variables for end game screen
-    int mousex = 0;
-    int mousey = 0;
+    int mouseX = 0;
+    int mouseY = 0;
     // randomly generate the x and y coordinates of the growing rectangles
-    int xposition = (int) (Math.random() * (1000 - 1 + 1)) + 1;
-    int yposition = (int) (Math.random() * (800 - 1 + 1)) + 1;
+    int xPosition = (int) (Math.random() * (1000 - 1 + 1)) + 1;
+    int yPosition = (int) (Math.random() * (800 - 1 + 1)) + 1;
     //make array to save randomly generated numbers
-    int[] xposarray = new int[20];
-    int[] yposarray = new int[20];
+    int[] xPosArray = new int[20];
+    int[] yPosArray = new int[20];
     //make rectangles that make player larger 
-    Rectangle[] bigrecs = new Rectangle[10];
+    Rectangle[] bigRecs = new Rectangle[10];
     //create boolean to rneder the rectangles
-    boolean[] Lrenderable = new boolean[10];
+    boolean[] lRenderable = new boolean[10];
     //make rectangles that make player smaller 
-    Rectangle[] smallrecs = new Rectangle[10];
+    Rectangle[] smallRecs = new Rectangle[10];
     //create another boolean to render the smaller squares
-    boolean[] Srenderable = new boolean[10];
+    boolean[] sRenderable = new boolean[10];
+    //maze colour
+    Color maze = new Color(2, 105, 107);
+    //smaller colour
+    Color smaller = new Color(205, 241, 241);
+    //arger colour
+    Color larger = new Color(0, 250, 255);
+    List<Block> list = new ArrayList<Block>();
     //boolean for start screen
     boolean start = true;
     //create boolean to stop geneation of grow larger square/only 10 times
-    boolean allgenerated = false;
+    boolean allGenerated = false;
     JFrame frame;
     static game game;
     // GAME VARIABLES END HERE    
@@ -155,27 +167,36 @@ public class game extends JComponent implements ActionListener {
         g.fillRect(player.x, player.y, player.width, player.height);
 
         //draw out the squares that make the player grow 
-        g.setColor(text);
+        g.setColor(larger);
 
         for (int i = 0; i < 10; i++) {
 
-            if (Lrenderable[i]) {
+            if (lRenderable[i]) {
 
-                g.fillRect(bigrecs[i].x, bigrecs[i].y, bigrecs[i].width, bigrecs[i].height);
+                g.fillRect(bigRecs[i].x, bigRecs[i].y, bigRecs[i].width, bigRecs[i].height);
             }
         }
         //draw out the squares that make the player smaller 
-        g.setColor(Color.WHITE);
+        g.setColor(smaller);
 
         for (int i = 0; i < 10; i++) {
 
-            if (Srenderable[i]) {
-                g.fillRect(smallrecs[i].x, smallrecs[i].y, smallrecs[i].width, smallrecs[i].height);
+            if (sRenderable[i]) {
+                g.fillRect(smallRecs[i].x, smallRecs[i].y, smallRecs[i].width, smallRecs[i].height);
             }
+        }
+
+        //
+        for (Block block : list) {
+
+            block.render(g);
+
         }
 
         //create the starting screen of game
         if (start) {
+            player.x = 980;
+            player.y = 780;
             //set background to blank screen
             g.setColor(background);
             g.fillRect(0, 0, WIDTH, HEIGHT);
@@ -230,7 +251,7 @@ public class game extends JComponent implements ActionListener {
             g.drawString("YOU WIN", 175, 200);
 
             //set text to ask player if they want to play again
-            g.setFont(playagain);
+            g.setFont(playAgain);
             g.drawString("Play Again?", 340, 400);
 
             //set yes box
@@ -241,6 +262,31 @@ public class game extends JComponent implements ActionListener {
             g.drawString("No", 450, 600);
             g.fillRect(no.x, no.y, no.width, no.height);
         }
+
+        //create a screen for losing the game
+        if (lose) {
+            // make screen go blank 
+            g.setColor(background);
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+
+            //set you lose text
+            g.setFont(winner);
+            g.setColor(text);
+            g.drawString("MAZE FAILED", 0, 150);
+
+            //create exit game option
+            g.setFont(playAgain);
+            g.drawString("QUIT MAZE?", 310, 400);
+            g.fillRect(quitGame.x, quitGame.y, quitGame.width, quitGame.height);
+            //create exit game option
+            g.setFont(playAgain);
+            g.drawString("PLAY AGAIN?", 310, 600);
+            g.fillRect(tryAgain.x, tryAgain.y, tryAgain.width, tryAgain.height);
+
+
+
+        }
+
 
 
 
@@ -259,15 +305,297 @@ public class game extends JComponent implements ActionListener {
         // Any of your pre setup before the loop starts should go here
         largerBigger();
         for (int i = 0; i < 10; i++) {
-            Lrenderable[i] = true;
-            bigrecs[i] = new Rectangle(xposarray[i], yposarray[i], 10, 10);
+            lRenderable[i] = true;
+            bigRecs[i] = new Rectangle(xPosArray[i], yPosArray[i], 10, 10);
 
         }
         for (int i = 0; i < 10; i++) {
-            Srenderable[i] = true;
-            smallrecs[i] = new Rectangle(xposarray[10 + i], yposarray[10 + i], 10, 10);
+            sRenderable[i] = true;
+            smallRecs[i] = new Rectangle(xPosArray[10 + i], yPosArray[10 + i], 10, 10);
 
         }
+
+
+
+
+        list.add(new Block(20, 50));
+        list.add(new Block(20, 70));
+        list.add(new Block(20, 90));
+        list.add(new Block(20, 110));
+        list.add(new Block(20, 130));
+        list.add(new Block(20, 150));
+        list.add(new Block(20, 170));
+        list.add(new Block(20, 190));
+        list.add(new Block(20, 110));
+        list.add(new Block(20, 130));
+        list.add(new Block(20, 150));
+        list.add(new Block(20, 170));
+        list.add(new Block(20, 190));
+        list.add(new Block(20, 210));
+        list.add(new Block(20, 230));
+        list.add(new Block(20, 250));
+        list.add(new Block(20, 270));
+        list.add(new Block(20, 290));
+
+        list.add(new Block(0, 330));
+        list.add(new Block(20, 350));
+        list.add(new Block(40, 370));
+        list.add(new Block(100, 370));
+
+        list.add(new Block(60, 310));
+        list.add(new Block(80, 330));
+
+        list.add(new Block(100, 330));
+        list.add(new Block(120, 330));
+        list.add(new Block(140, 330));
+        list.add(new Block(160, 330));
+        list.add(new Block(180, 330));
+        list.add(new Block(200, 330));
+        list.add(new Block(220, 330));
+        list.add(new Block(240, 330));
+        list.add(new Block(260, 330));
+        list.add(new Block(280, 330));
+        list.add(new Block(300, 330));
+        list.add(new Block(320, 330));
+
+
+        list.add(new Block(40, 290));
+        list.add(new Block(60, 290));
+        list.add(new Block(80, 290));
+
+        list.add(new Block(120, 290));
+        list.add(new Block(140, 290));
+        list.add(new Block(160, 290));
+        list.add(new Block(180, 290));
+        list.add(new Block(200, 290));
+
+        list.add(new Block(40, 70));
+        list.add(new Block(60, 70));
+        list.add(new Block(80, 70));
+        list.add(new Block(100, 70));
+
+        list.add(new Block(100, 50));
+        list.add(new Block(100, 30));
+        list.add(new Block(100, 20));
+
+        list.add(new Block(120, 20));
+        list.add(new Block(140, 20));
+        list.add(new Block(160, 20));
+        list.add(new Block(180, 20));
+
+
+        list.add(new Block(180, 40));
+        list.add(new Block(180, 60));
+        list.add(new Block(180, 80));
+        list.add(new Block(180, 100));
+
+        list.add(new Block(220, 140));
+        list.add(new Block(200, 140));
+        list.add(new Block(180, 140));
+        list.add(new Block(160, 140));
+        list.add(new Block(140, 140));
+        list.add(new Block(120, 140));
+        list.add(new Block(100, 140));
+
+        list.add(new Block(100, 160));
+        list.add(new Block(100, 180));
+        list.add(new Block(100, 200));
+        list.add(new Block(100, 220));
+        list.add(new Block(100, 240));
+
+        list.add(new Block(160, 240));
+        list.add(new Block(180, 240));
+        list.add(new Block(160, 220));
+        list.add(new Block(180, 220));
+        list.add(new Block(160, 200));
+        list.add(new Block(180, 200));
+
+        list.add(new Block(200, 240));
+        list.add(new Block(220, 240));
+        list.add(new Block(240, 240));
+
+        list.add(new Block(200, 220));
+        list.add(new Block(220, 220));
+        list.add(new Block(240, 220));
+
+        list.add(new Block(260, 240));
+        list.add(new Block(260, 220));
+
+
+        list.add(new Block(260, 200));
+
+        list.add(new Block(260, 180));
+        list.add(new Block(260, 160));
+        list.add(new Block(260, 140));
+        list.add(new Block(260, 120));
+        list.add(new Block(260, 100));
+        list.add(new Block(260, 80));
+
+        list.add(new Block(280, 80));
+        list.add(new Block(300, 80));
+        list.add(new Block(320, 80));
+        list.add(new Block(340, 80));
+        list.add(new Block(360, 80));
+        list.add(new Block(380, 80));
+        list.add(new Block(400, 80));
+        list.add(new Block(420, 80));
+        list.add(new Block(440, 80));
+
+        list.add(new Block(440, 60));
+        list.add(new Block(440, 40));
+        list.add(new Block(440, 20));
+
+        list.add(new Block(480, 20));
+        list.add(new Block(480, 40));
+        list.add(new Block(480, 60));
+        list.add(new Block(480, 80));
+        list.add(new Block(480, 100));
+        list.add(new Block(480, 120));
+
+        list.add(new Block(460, 120));
+        list.add(new Block(440, 120));
+        list.add(new Block(420, 120));
+        list.add(new Block(400, 120));
+        list.add(new Block(380, 120));
+        list.add(new Block(360, 120));
+        list.add(new Block(340, 120));
+        list.add(new Block(320, 120));
+        list.add(new Block(300, 120));
+
+        list.add(new Block(300, 140));
+        list.add(new Block(300, 160));
+        list.add(new Block(300, 180));
+        list.add(new Block(300, 200));
+        list.add(new Block(300, 220));
+        list.add(new Block(300, 240));
+        list.add(new Block(300, 260));
+        list.add(new Block(300, 280));
+        list.add(new Block(300, 300));
+
+        list.add(new Block(320, 300));
+        list.add(new Block(340, 300));
+        list.add(new Block(360, 300));
+        list.add(new Block(380, 300));
+
+        list.add(new Block(380, 320));
+        list.add(new Block(380, 340));
+        list.add(new Block(380, 360));
+
+        list.add(new Block(360, 360));
+        list.add(new Block(340, 360));
+        list.add(new Block(320, 360));
+        list.add(new Block(300, 360));
+        list.add(new Block(280, 360));
+        list.add(new Block(260, 360));
+        list.add(new Block(240, 360));
+        list.add(new Block(220, 360));
+        list.add(new Block(200, 360));
+        list.add(new Block(180, 360));
+        list.add(new Block(160, 360));
+        list.add(new Block(140, 360));
+
+
+        list.add(new Block(140, 380));
+        list.add(new Block(140, 400));
+        list.add(new Block(140, 420));
+        list.add(new Block(140, 440));
+        list.add(new Block(140, 460));
+        list.add(new Block(140, 480));
+        list.add(new Block(140, 500));
+        list.add(new Block(140, 520));
+
+        list.add(new Block(100, 380));
+        list.add(new Block(100, 400));
+        list.add(new Block(100, 420));
+        list.add(new Block(100, 440));
+        list.add(new Block(100, 460));
+        list.add(new Block(100, 480));
+        list.add(new Block(100, 500));
+        list.add(new Block(100, 520));
+
+        list.add(new Block(40, 380));
+        list.add(new Block(40, 400));
+        list.add(new Block(40, 420));
+        list.add(new Block(40, 440));
+
+        list.add(new Block(60, 440));
+        list.add(new Block(80, 440));
+
+        list.add(new Block(0, 440));
+        list.add(new Block(0, 420));
+        list.add(new Block(0, 400));
+        list.add(new Block(0, 380));
+        list.add(new Block(0, 360));
+        list.add(new Block(0, 340));
+
+        list.add(new Block(20, 440));
+        list.add(new Block(20, 420));
+        list.add(new Block(20, 400));
+        list.add(new Block(20, 380));
+        list.add(new Block(20, 360));
+        list.add(new Block(20, 340));
+
+        list.add(new Block(80, 480));
+        list.add(new Block(60, 480));
+        list.add(new Block(40, 480));
+        list.add(new Block(20, 480));
+
+        list.add(new Block(20, 500));
+        list.add(new Block(20, 520));
+        list.add(new Block(20, 540));
+        list.add(new Block(20, 560));
+        list.add(new Block(20, 580));
+
+
+        list.add(new Block(60, 520));
+        list.add(new Block(60, 540));
+        list.add(new Block(60, 560));
+        list.add(new Block(60, 580));
+
+        list.add(new Block(80, 560));
+        list.add(new Block(100, 560));
+
+        list.add(new Block(160, 520));         
+
+        list.add(new Block(220, 520));
+        list.add(new Block(220, 500));
+        list.add(new Block(220, 480));
+        list.add(new Block(220, 460));
+        list.add(new Block(220, 440));
+        list.add(new Block(220, 420));
+        
+
+        list.add(new Block(200, 200));
+        list.add(new Block(220, 200));
+        list.add(new Block(240, 200));
+        list.add(new Block(180, 200));
+
+
+        list.add(new Block(220, 120));
+        list.add(new Block(220, 100));
+        list.add(new Block(220, 80));
+        list.add(new Block(220, 60));
+        list.add(new Block(220, 40));
+        list.add(new Block(220, 20));
+
+        list.add(new Block(240, 20));
+        list.add(new Block(260, 20));
+        list.add(new Block(280, 20));
+        list.add(new Block(300, 20));
+        list.add(new Block(320, 20));
+        list.add(new Block(340, 20));
+        list.add(new Block(360, 20));
+
+        list.add(new Block(140, 100));
+        list.add(new Block(140, 80));
+        list.add(new Block(140, 60));
+
+        list.add(new Block(30, 0));
+        list.add(new Block(50, 0));
+        list.add(new Block(60, 0));
+
+        list.add(new Block(60, 30));
+
 
 
 
@@ -276,14 +604,15 @@ public class game extends JComponent implements ActionListener {
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
+
         moveplayer();
         collisiondetect();
 
-        if (allgenerated == false) {
+        if (allGenerated == false) {
             largerBigger();
             preSetup();
         }
-        if (yes.contains(mousex, mousey)) {
+        if (yes.contains(mouseX, mouseY)) {
 
             reset();
 
@@ -298,31 +627,31 @@ public class game extends JComponent implements ActionListener {
 
         for (int i = 0; i <= 19; i++) {
 
-            yposition = (int) (Math.random() * (800 - 1 + 1)) + 1;
-            xposition = (int) (Math.random() * (1000 - 1 + 1)) + 1;
+            yPosition = (int) (Math.random() * (800 - 1 + 1)) + 1;
+            xPosition = (int) (Math.random() * (1000 - 1 + 1)) + 1;
 
 
-            xposarray[i] = xposition;
-            yposarray[i] = yposition;
+            xPosArray[i] = xPosition;
+            yPosArray[i] = yPosition;
         }
-        allgenerated = true;
+        allGenerated = true;
 
     }
 
     private void moveplayer() {
         // move player up contol
-        if (playerup) {
-            player.y = player.y - playerspeed;
+        if (playerUp) {
+            player.y = player.y - playerSpeed;
 
-        } else if (playerdown) {
-            player.y = player.y + playerspeed;
+        } else if (playerDown) {
+            player.y = player.y + playerSpeed;
         }
 
         //move player left/right
-        if (playerright) {
-            player.x = player.x + playerspeed;
-        } else if (playerleft) {
-            player.x = player.x - playerspeed;
+        if (playerRight) {
+            player.x = player.x + playerSpeed;
+        } else if (playerLeft) {
+            player.x = player.x - playerSpeed;
         }
 
         // make the player unable to go off the screen
@@ -350,39 +679,57 @@ public class game extends JComponent implements ActionListener {
     }
 
     private void collisiondetect() {
+
+        for (Block block : list) {
+            block.collisions(player);
+        }
         //make player win game
         if (player.intersects(end)) {
 
             win = true;
         }
 //re set game if player clicks yes box
-        if (yes.contains(mousex, mousey)) {
+        if (yes.contains(mouseX, mouseY)) {
+
             reset();
+
+
         }
 //exit game if player clicks no box
-        if (no.contains(mousex, mousey)) {
+        if (no.contains(mouseX, mouseY)) {
             System.exit(0);
         }
-        if (enter.contains(mousex, mousey)) {
-           start = false;
+        if (enter.contains(mouseX, mouseY)) {
+            start = false;
         }
-        if (exit.contains(mousex, mousey)) {
+        if (exit.contains(mouseX, mouseY)) {
             System.exit(0);
         }
 
+        if (tryAgain.contains(mouseX, mouseY)) {
+            reset();
+        }
+
+        if (quitGame.contains(mouseX, mouseY)) {
+            System.exit(0);
+        }
+
+
+
+
         //make player grow if it collides with the green squares
         for (int i = 0; i < 10; i++) {
-            if (player.intersects(bigrecs[i]) && Lrenderable[i]) {
+            if (player.intersects(bigRecs[i]) && lRenderable[i]) {
                 player.height = player.height + 4;
                 player.width = player.width + 4;
-                Lrenderable[i] = false;
+                lRenderable[i] = false;
             }
         }
-        for (int i = 0; i < 10; i++) {     
-            if (player.intersects(smallrecs[i]) && Srenderable[i]) {
+        for (int i = 0; i < 10; i++) {
+            if (player.intersects(smallRecs[i]) && sRenderable[i]) {
                 player.height = player.height - 3;
                 player.width = player.width - 3;
-                Srenderable[i] = false;
+                sRenderable[i] = false;
             }
         }
 
@@ -395,13 +742,19 @@ public class game extends JComponent implements ActionListener {
         @Override
         public void mousePressed(MouseEvent e) {
             if (win) {
-                mousex = e.getX();
-                mousey = e.getY();
+                mouseX = e.getX();
+                mouseY = e.getY();
 
             }
             if (start) {
-                mousex = e.getX();
-                mousey = e.getY();
+                mouseX = e.getX();
+                mouseY = e.getY();
+
+            }
+
+            if (lose) {
+                mouseX = e.getX();
+                mouseY = e.getY();
 
             }
         }
@@ -432,16 +785,16 @@ public class game extends JComponent implements ActionListener {
 
             // player up/ down controls
             if (keyCode == KeyEvent.VK_UP) {
-                playerup = true;
+                playerUp = true;
             } else if (keyCode == KeyEvent.VK_DOWN) {
-                playerdown = true;
+                playerDown = true;
             }
 
             // mover player left/rigth controls
             if (keyCode == KeyEvent.VK_RIGHT) {
-                playerright = true;
+                playerRight = true;
             } else if (keyCode == KeyEvent.VK_LEFT) {
-                playerleft = true;
+                playerLeft = true;
             }
         }
 
@@ -453,16 +806,16 @@ public class game extends JComponent implements ActionListener {
 
             // player up/ down controls
             if (keyCode == KeyEvent.VK_UP) {
-                playerup = false;
+                playerUp = false;
             } else if (keyCode == KeyEvent.VK_DOWN) {
-                playerdown = false;
+                playerDown = false;
             }
 
             // mover player left/rigth controls
             if (keyCode == KeyEvent.VK_RIGHT) {
-                playerright = false;
+                playerRight = false;
             } else if (keyCode == KeyEvent.VK_LEFT) {
-                playerleft = false;
+                playerLeft = false;
             }
         }
     }
@@ -483,15 +836,15 @@ public class game extends JComponent implements ActionListener {
         //place player back at the start of the maze
         player.setLocation(980, 780);
         //reset controls for movement
-        playerup = false;
-        playerdown = false;
-        playerleft = false;
-        playerright = false;
+        playerUp = false;
+        playerDown = false;
+        playerLeft = false;
+        playerRight = false;
         //reset players speed to 5
-        playerspeed = 5;
+        playerSpeed = 5;
         //reset mouse cooridinates to 0, 0
-        mousex = 0;
-        mousey = 0;
+        mouseX = 0;
+        mouseY = 0;
         //reset the player to the original size
         player.height = 20;
         player.width = 20;
@@ -508,5 +861,32 @@ public class game extends JComponent implements ActionListener {
     public static void main(String[] args) {
         // creates an instance of my game
         game = new game();
+    }
+
+    class Block {
+
+        Rectangle block;
+        int diameter = 20;
+
+        public Block(int x, int y) {
+
+            block = new Rectangle(x, y, diameter, diameter);
+
+        }
+
+        public void render(Graphics g) {
+
+            for (int i = 0; i < 10; i++) {
+                //draw a rectangle
+                g.setColor(maze);
+                g.fillRect(block.x, block.y, block.width, block.height);
+            }
+        }
+
+        public void collisions(Rectangle player) {
+            if (player.intersects(block)) {
+                lose = true;
+            }
+        }
     }
 }
