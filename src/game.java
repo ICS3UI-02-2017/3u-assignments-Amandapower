@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.Timer;
 
 /**
@@ -96,6 +97,8 @@ public class game extends JComponent implements ActionListener {
     //arger colour
     Color larger = new Color(0, 250, 255);
     List<Block> list = new ArrayList<Block>();
+    List<Block> upDownList = new ArrayList<Block>();
+    List<Block> sidewaysList = new ArrayList<Block>();
     //boolean for start screen
     boolean start = true;
     //create boolean to stop geneation of grow larger square/only 10 times
@@ -144,23 +147,19 @@ public class game extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE]
-
         // set the background to a grey colour 
         g.setColor(background);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         // create the starting point of the game
-
         //green rectangle in bottom righthand corner
         g.setColor(text);
         g.fillRect(970, 770, 30, 30);
 
         //ending point of the game 
-
         //red rectangle in top lefhand corner
         g.setColor(text);
         g.fillRect(end.y, end.x, end.width, end.height);
-
 
         // draw character to go through the maze
         g.setColor(Color.BLACK);
@@ -188,8 +187,19 @@ public class game extends JComponent implements ActionListener {
 
         //
         for (Block block : list) {
-
+            
             block.render(g);
+
+        }
+        
+        for (Block block : sidewaysList ) {
+            int displacement = (int) (20 * Math.sin((System.nanoTime() / 100000000) + block.displace));
+            block.render(g, displacement, 0);
+        }
+        
+        for (Block block : upDownList) {
+            int displacement = (int) (20 * Math.sin((System.nanoTime() / 100000000) + block.displace));
+            block.render(g, 0, displacement);
 
         }
 
@@ -204,7 +214,7 @@ public class game extends JComponent implements ActionListener {
             //text on start screen
             g.setFont(welcome);
             g.setColor(text);
-            g.drawString("WELCOME TO THE GAME", 8, 100);
+            g.drawString("WELCOME TO THE MAZE", 8, 100);
 
             //controls section
             g.setFont(controls);
@@ -219,10 +229,9 @@ public class game extends JComponent implements ActionListener {
 
             g.drawString("DOWN ARROW - GO DOWN", 600, 410);
 
-            g.drawString("GREEN SQUARE - GROW LARGER", 600, 270);
+            g.drawString("BLUE SQUARE - GROW LARGER", 600, 270);
 
             g.drawString("WHITE SQUARE - GROW SMALLER", 600, 340);
-
 
             //play and exit options
             g.setFont(welcome);
@@ -233,11 +242,7 @@ public class game extends JComponent implements ActionListener {
             g.drawString("EXIT", 700, 670);
             g.fillRect(exit.x, exit.y, exit.width, exit.height);
 
-
-
         }
-
-
 
 // type out you win if player wins the game 
         if (win) {
@@ -283,18 +288,7 @@ public class game extends JComponent implements ActionListener {
             g.drawString("PLAY AGAIN?", 310, 600);
             g.fillRect(tryAgain.x, tryAgain.y, tryAgain.width, tryAgain.height);
 
-
-
         }
-
-
-
-
-
-
-
-
-
 
         // GAME DRAWING ENDS HERE  
     }
@@ -314,288 +308,65 @@ public class game extends JComponent implements ActionListener {
             smallRecs[i] = new Rectangle(xPosArray[10 + i], yPosArray[10 + i], 10, 10);
 
         }
-
-
-
-
-        list.add(new Block(20, 50));
-        list.add(new Block(20, 70));
-        list.add(new Block(20, 90));
-        list.add(new Block(20, 110));
-        list.add(new Block(20, 130));
-        list.add(new Block(20, 150));
-        list.add(new Block(20, 170));
-        list.add(new Block(20, 190));
-        list.add(new Block(20, 110));
-        list.add(new Block(20, 130));
-        list.add(new Block(20, 150));
-        list.add(new Block(20, 170));
-        list.add(new Block(20, 190));
-        list.add(new Block(20, 210));
-        list.add(new Block(20, 230));
-        list.add(new Block(20, 250));
-        list.add(new Block(20, 270));
-        list.add(new Block(20, 290));
-
-        list.add(new Block(0, 330));
-        list.add(new Block(20, 350));
-        list.add(new Block(40, 370));
-        list.add(new Block(100, 370));
-
-        list.add(new Block(60, 310));
-        list.add(new Block(80, 330));
-
-        list.add(new Block(100, 330));
-        list.add(new Block(120, 330));
-        list.add(new Block(140, 330));
-        list.add(new Block(160, 330));
-        list.add(new Block(180, 330));
-        list.add(new Block(200, 330));
-        list.add(new Block(220, 330));
-        list.add(new Block(240, 330));
-        list.add(new Block(260, 330));
-        list.add(new Block(280, 330));
-        list.add(new Block(300, 330));
-        list.add(new Block(320, 330));
-
-
-        list.add(new Block(40, 290));
-        list.add(new Block(60, 290));
-        list.add(new Block(80, 290));
-
-        list.add(new Block(120, 290));
-        list.add(new Block(140, 290));
-        list.add(new Block(160, 290));
-        list.add(new Block(180, 290));
-        list.add(new Block(200, 290));
-
-        list.add(new Block(40, 70));
-        list.add(new Block(60, 70));
-        list.add(new Block(80, 70));
-        list.add(new Block(100, 70));
-
-        list.add(new Block(100, 50));
-        list.add(new Block(100, 30));
-        list.add(new Block(100, 20));
-
-        list.add(new Block(120, 20));
-        list.add(new Block(140, 20));
-        list.add(new Block(160, 20));
-        list.add(new Block(180, 20));
-
-
-        list.add(new Block(180, 40));
-        list.add(new Block(180, 60));
-        list.add(new Block(180, 80));
-        list.add(new Block(180, 100));
-
-        list.add(new Block(220, 140));
-        list.add(new Block(200, 140));
-        list.add(new Block(180, 140));
-        list.add(new Block(160, 140));
-        list.add(new Block(140, 140));
-        list.add(new Block(120, 140));
-        list.add(new Block(100, 140));
-
-        list.add(new Block(100, 160));
-        list.add(new Block(100, 180));
-        list.add(new Block(100, 200));
-        list.add(new Block(100, 220));
-        list.add(new Block(100, 240));
-
-        list.add(new Block(160, 240));
-        list.add(new Block(180, 240));
-        list.add(new Block(160, 220));
-        list.add(new Block(180, 220));
-        list.add(new Block(160, 200));
-        list.add(new Block(180, 200));
-
-        list.add(new Block(200, 240));
-        list.add(new Block(220, 240));
-        list.add(new Block(240, 240));
-
-        list.add(new Block(200, 220));
-        list.add(new Block(220, 220));
-        list.add(new Block(240, 220));
-
-        list.add(new Block(260, 240));
-        list.add(new Block(260, 220));
-
-
-        list.add(new Block(260, 200));
-
-        list.add(new Block(260, 180));
-        list.add(new Block(260, 160));
-        list.add(new Block(260, 140));
-        list.add(new Block(260, 120));
-        list.add(new Block(260, 100));
-        list.add(new Block(260, 80));
-
-        list.add(new Block(280, 80));
-        list.add(new Block(300, 80));
-        list.add(new Block(320, 80));
-        list.add(new Block(340, 80));
-        list.add(new Block(360, 80));
-        list.add(new Block(380, 80));
-        list.add(new Block(400, 80));
-        list.add(new Block(420, 80));
-        list.add(new Block(440, 80));
-
-        list.add(new Block(440, 60));
-        list.add(new Block(440, 40));
-        list.add(new Block(440, 20));
-
-        list.add(new Block(480, 20));
-        list.add(new Block(480, 40));
-        list.add(new Block(480, 60));
-        list.add(new Block(480, 80));
-        list.add(new Block(480, 100));
-        list.add(new Block(480, 120));
-
-        list.add(new Block(460, 120));
-        list.add(new Block(440, 120));
-        list.add(new Block(420, 120));
-        list.add(new Block(400, 120));
-        list.add(new Block(380, 120));
-        list.add(new Block(360, 120));
-        list.add(new Block(340, 120));
-        list.add(new Block(320, 120));
-        list.add(new Block(300, 120));
-
-        list.add(new Block(300, 140));
-        list.add(new Block(300, 160));
-        list.add(new Block(300, 180));
-        list.add(new Block(300, 200));
-        list.add(new Block(300, 220));
-        list.add(new Block(300, 240));
-        list.add(new Block(300, 260));
-        list.add(new Block(300, 280));
-        list.add(new Block(300, 300));
-
-        list.add(new Block(320, 300));
-        list.add(new Block(340, 300));
-        list.add(new Block(360, 300));
-        list.add(new Block(380, 300));
-
-        list.add(new Block(380, 320));
-        list.add(new Block(380, 340));
-        list.add(new Block(380, 360));
-
-        list.add(new Block(360, 360));
-        list.add(new Block(340, 360));
-        list.add(new Block(320, 360));
-        list.add(new Block(300, 360));
-        list.add(new Block(280, 360));
-        list.add(new Block(260, 360));
-        list.add(new Block(240, 360));
-        list.add(new Block(220, 360));
-        list.add(new Block(200, 360));
-        list.add(new Block(180, 360));
-        list.add(new Block(160, 360));
-        list.add(new Block(140, 360));
-
-
-        list.add(new Block(140, 380));
-        list.add(new Block(140, 400));
-        list.add(new Block(140, 420));
-        list.add(new Block(140, 440));
-        list.add(new Block(140, 460));
-        list.add(new Block(140, 480));
-        list.add(new Block(140, 500));
-        list.add(new Block(140, 520));
-
-        list.add(new Block(100, 380));
-        list.add(new Block(100, 400));
-        list.add(new Block(100, 420));
-        list.add(new Block(100, 440));
-        list.add(new Block(100, 460));
-        list.add(new Block(100, 480));
-        list.add(new Block(100, 500));
-        list.add(new Block(100, 520));
-
-        list.add(new Block(40, 380));
-        list.add(new Block(40, 400));
-        list.add(new Block(40, 420));
-        list.add(new Block(40, 440));
-
-        list.add(new Block(60, 440));
-        list.add(new Block(80, 440));
-
-        list.add(new Block(0, 440));
-        list.add(new Block(0, 420));
-        list.add(new Block(0, 400));
-        list.add(new Block(0, 380));
-        list.add(new Block(0, 360));
-        list.add(new Block(0, 340));
-
-        list.add(new Block(20, 440));
-        list.add(new Block(20, 420));
-        list.add(new Block(20, 400));
-        list.add(new Block(20, 380));
-        list.add(new Block(20, 360));
-        list.add(new Block(20, 340));
-
-        list.add(new Block(80, 480));
-        list.add(new Block(60, 480));
-        list.add(new Block(40, 480));
-        list.add(new Block(20, 480));
-
-        list.add(new Block(20, 500));
-        list.add(new Block(20, 520));
-        list.add(new Block(20, 540));
-        list.add(new Block(20, 560));
-        list.add(new Block(20, 580));
-
-
-        list.add(new Block(60, 520));
-        list.add(new Block(60, 540));
-        list.add(new Block(60, 560));
-        list.add(new Block(60, 580));
-
-        list.add(new Block(80, 560));
-        list.add(new Block(100, 560));
-
-        list.add(new Block(160, 520));         
-
-        list.add(new Block(220, 520));
-        list.add(new Block(220, 500));
-        list.add(new Block(220, 480));
-        list.add(new Block(220, 460));
-        list.add(new Block(220, 440));
-        list.add(new Block(220, 420));
         
-
-        list.add(new Block(200, 200));
-        list.add(new Block(220, 200));
-        list.add(new Block(240, 200));
-        list.add(new Block(180, 200));
-
-
-        list.add(new Block(220, 120));
-        list.add(new Block(220, 100));
-        list.add(new Block(220, 80));
-        list.add(new Block(220, 60));
-        list.add(new Block(220, 40));
-        list.add(new Block(220, 20));
-
-        list.add(new Block(240, 20));
-        list.add(new Block(260, 20));
-        list.add(new Block(280, 20));
-        list.add(new Block(300, 20));
-        list.add(new Block(320, 20));
-        list.add(new Block(340, 20));
-        list.add(new Block(360, 20));
-
-        list.add(new Block(140, 100));
-        list.add(new Block(140, 80));
-        list.add(new Block(140, 60));
-
-        list.add(new Block(30, 0));
-        list.add(new Block(50, 0));
-        list.add(new Block(60, 0));
-
-        list.add(new Block(60, 30));
-
+        int xSlots = 50;          
+        int ySlots = 40;
+        int[][] maze = new int[][]{
+            {0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+            {0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 1, 0, 1, 0, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0},
+            {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0},
+            {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 1, 1, 1, 0, 1, 0, 1, 3, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 3, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 3, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
+            {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
+            {1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
+            {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0},
+            {0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+            {3, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1},
+            {0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0},
+            {0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 1, 0, 0, 0},
+            {0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0},
+            {1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+            {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0},
+            {0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0},
+            {0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0},
+            {0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0},
+            {1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 3, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 3, 0, 1, 0, 0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0},
+            {0, 1, 0, 1, 3, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0},
+            {1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        };
+        Random random = new Random();
+        for (int y = 0; y<40; y++){
+            for (int x = 0; x<50; x++){
+                if (maze[y][x] == 1){
+                    list.add(new Block (x*20, y*20));
+                }
+                if (maze[y][x] == 2){
+                    upDownList.add(new Block (x*20, y*20, random.nextInt(40) - 20));
+                }
+                if (maze[y][x] == 3){
+                    sidewaysList.add(new Block (x*20, y*20, random.nextInt(40) - 20));
+                }
+            }
+        }
 
 
 
@@ -616,20 +387,16 @@ public class game extends JComponent implements ActionListener {
 
             reset();
 
-
-
         }
 
     }
 
     private void largerBigger() {
 
-
         for (int i = 0; i <= 19; i++) {
 
             yPosition = (int) (Math.random() * (800 - 1 + 1)) + 1;
             xPosition = (int) (Math.random() * (1000 - 1 + 1)) + 1;
-
 
             xPosArray[i] = xPosition;
             yPosArray[i] = yPosition;
@@ -675,7 +442,6 @@ public class game extends JComponent implements ActionListener {
             player.x = WIDTH - player.width;
         }
 
-
     }
 
     private void collisiondetect() {
@@ -683,16 +449,23 @@ public class game extends JComponent implements ActionListener {
         for (Block block : list) {
             block.collisions(player);
         }
+        
+        for (Block block : upDownList) {
+            block.collisions(player);
+        }
+        
+        for (Block block : sidewaysList) {
+            block.collisions(player);
+        }
         //make player win game
         if (player.intersects(end)) {
 
-            win = true;
+            win = true;             
         }
 //re set game if player clicks yes box
         if (yes.contains(mouseX, mouseY)) {
 
             reset();
-
 
         }
 //exit game if player clicks no box
@@ -713,9 +486,6 @@ public class game extends JComponent implements ActionListener {
         if (quitGame.contains(mouseX, mouseY)) {
             System.exit(0);
         }
-
-
-
 
         //make player grow if it collides with the green squares
         for (int i = 0; i < 10; i++) {
@@ -850,9 +620,6 @@ public class game extends JComponent implements ActionListener {
         player.width = 20;
         //allgenerated = false;
 
-
-
-
     }
 
     /**
@@ -867,20 +634,28 @@ public class game extends JComponent implements ActionListener {
 
         Rectangle block;
         int diameter = 20;
+        int displace;
 
         public Block(int x, int y) {
-
             block = new Rectangle(x, y, diameter, diameter);
-
+        }
+        
+        public Block(int x, int y, int displace) {
+            this.displace = displace;
+            block = new Rectangle(x, y, diameter, diameter);
         }
 
-        public void render(Graphics g) {
-
-            for (int i = 0; i < 10; i++) {
+        public void render(Graphics g) {           
                 //draw a rectangle
                 g.setColor(maze);
                 g.fillRect(block.x, block.y, block.width, block.height);
-            }
+            
+        }
+        
+        public void render(Graphics g, int x, int y) {           
+                //draw a rectangle
+                g.setColor(maze);
+                g.fillRect(block.x + x, block.y + y, block.width, block.height);                            
         }
 
         public void collisions(Rectangle player) {
