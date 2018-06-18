@@ -44,8 +44,8 @@ public class game extends JComponent implements ActionListener {
     // costom font type and size
     Font boldFont = new Font("arial", Font.BOLD, 27);
     //create variable for character that will go through the maze
-    Rectangle player = new Rectangle(980, 780, 20, 20);
-    //create booleans for player movement
+    Rectangle player = new Rectangle(980, 780, 10, 10);
+    //create booleans for player movement       
     boolean playerUp = false;
     boolean playerDown = false;
     boolean playerLeft = false;
@@ -594,7 +594,7 @@ public class game extends JComponent implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
 
         gameLoop();
-        repaint();
+        repaint();      
     }
 
     private void reset() {
@@ -616,8 +616,8 @@ public class game extends JComponent implements ActionListener {
         mouseX = 0;
         mouseY = 0;
         //reset the player to the original size
-        player.height = 20;
-        player.width = 20;
+        player.height = 10;
+        player.width = 10;
         //allgenerated = false;
 
     }
