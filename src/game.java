@@ -44,7 +44,7 @@ public class game extends JComponent implements ActionListener {
     // costom font type and size
     Font boldFont = new Font("arial", Font.BOLD, 27);
     //create variable for character that will go through the maze
-    Rectangle player = new Rectangle(980, 780, 10, 10);
+    Rectangle player = new Rectangle(980, 780, 15, 15);
     //create booleans for player movement       
     boolean playerUp = false;
     boolean playerDown = false;
@@ -197,6 +197,7 @@ public class game extends JComponent implements ActionListener {
             block.render(g, displacement, 0);
         }
         
+        
         for (Block block : upDownList) {
             int displacement = (int) (20 * Math.sin((System.nanoTime() / 100000000) + block.displace));
             block.render(g, 0, displacement);
@@ -333,7 +334,7 @@ public class game extends JComponent implements ActionListener {
             {0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
             {3, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1},
             {0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0},
-            {0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 1, 0, 0, 0},
+            {0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 1, 0, 0, 0},
             {0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0},
             {1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0},
@@ -497,8 +498,8 @@ public class game extends JComponent implements ActionListener {
         }
         for (int i = 0; i < 10; i++) {
             if (player.intersects(smallRecs[i]) && sRenderable[i]) {
-                player.height = player.height - 3;
-                player.width = player.width - 3;
+                player.height = player.height - 1;
+                player.width = player.width - 1;
                 sRenderable[i] = false;
             }
         }
@@ -616,8 +617,8 @@ public class game extends JComponent implements ActionListener {
         mouseX = 0;
         mouseY = 0;
         //reset the player to the original size
-        player.height = 10;
-        player.width = 10;
+        player.height = 15;
+        player.width = 15;
         //allgenerated = false;
 
     }
